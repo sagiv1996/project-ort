@@ -87,12 +87,17 @@ export default {
         if (this.remmber) {
           localStorage.setItem("id", this.id);
         }
-        await this.$auth.loginWith("local", {
+        try {
+          await this.$auth.loginWith("local", {
           data: {
             accountId: this.id,
             pass: this.pass,
           },
         })
+        } catch (error) {
+          this.$swal("פרטי התחברות שגויים", "נראה שהפרטים שגויים. נסה שנית", "error")
+        }
+        
         
       }
     },
