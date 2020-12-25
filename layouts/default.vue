@@ -126,7 +126,7 @@ export default {
           watch:['mentor']
         },
         {
-          icon: "mdi-account-group-outline",
+          icon: "mdi-chart-line",
           title: "סטיסטיקה",
           to: "/stat",
           watch:['worker', 'boss']

@@ -51,6 +51,9 @@
           @click:event="showDetalis"
           :event-more="false"
         />
+        <v-alert type="success" v-if="$auth.user.student.gradeProject" class="mt-5">
+          ציונך בהגנה הוא: {{$auth.user.student.gradeProject}}
+        </v-alert>
       </v-stepper-content>
     </v-stepper>
     <project :project.sync="project" v-if="project" />

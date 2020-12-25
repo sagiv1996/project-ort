@@ -71,6 +71,35 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <load-account :accountId="student.accountId" :location="true" />
+          <v-slider
+            v-if="project.ProtectionDate != null"
+            :readonly="$auth.user.type != 'worker'"
+            hint="טווח 0- 100"
+            max="100"
+            min="0"
+            label="ציון הפרויקט"
+            v-model="student.gradeProject"
+            thumb-label="always"
+            :color="
+              student.gradeProject < 30
+                ? 'red'
+                : student.gradeProject < 60
+                ? 'orange'
+                : student.gradeProject < 100
+                ? 'info'
+                : 'green'
+            "
+            :thumb-color="
+              student.gradeProject < 30
+                ? 'red'
+                : student.gradeProject < 60
+                ? 'orange'
+                : student.gradeProject < 100
+                ? 'info'
+                : 'green'
+            "
+            @end="updateStudent(student)"
+          ></v-slider>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -227,6 +256,10 @@ export default {
     },
   },
   methods: {
+    async updateStudent(student){
+      const result = await this.$axios.put(`students/${student.accountId}`, {gradeProject: student.gradeProject});
+      if (result.status === 200) this.$swal("ציון עודכן בהצלחה", `הציון לסטודנט עודכן בצהלחה!`, 'success')
+    },
     async download(file) {
       const res = await this.$axios.$get("/file/" + file.id, {
         responseType: "blob",
