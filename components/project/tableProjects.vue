@@ -101,6 +101,22 @@ export default {
         text: "תעודת זהות מנחה",
         value: "mentorAccountId",
       },
+      {
+        text: "הצעת פרויקט - מנחה",
+        value: "files[0].ApprovalMentorDate"
+      },
+      {
+        text: "הצעת פרויקט - ראש מגמה",
+        value: "files[0].ApprovalHeadDate"
+      },
+      {
+        text: "ספר פרויקט - מנחה",
+        value: "files[1].ApprovalMentorDate"
+      },
+      {
+        text: "ספר פרויקט - ראש מגמה",
+        value: "files[1].ApprovalHeadDate"
+      }
     ],
   }),
   props: {
@@ -113,6 +129,6 @@ export default {
     update(oldProject, newProject) {
       const project = this.projects.find((project) => project === oldProject);
     },
-  },
+  }
 };
 </script>

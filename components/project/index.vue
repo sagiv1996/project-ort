@@ -5,7 +5,7 @@
       <v-subheader v-if="project.dataUpdate">{{
         project.dataUpdate.slice(0, 10)
       }}</v-subheader>
-      <v-tooltip top v-if="$auth.user.type === 'worker'">
+      <v-tooltip top v-if="$auth.user.type === 'worker' || $auth.user.type === 'headFaculty'">
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" icon @click="update = true">
             <v-icon>mdi-cog-transfer-outline</v-icon>

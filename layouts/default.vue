@@ -48,7 +48,6 @@
       hide-on-scroll
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      {{$icon(512)}}
       <v-avatar tile>
         <v-img :src="$icon(512)" alt="לוגו אורט" />
       </v-avatar>

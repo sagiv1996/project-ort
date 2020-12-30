@@ -68,7 +68,7 @@ export default {
   data: () => ({
     showPass: false,
     id: null,
-    pass: null,
+    pass: '123456',
     emptyRules: [(v) => !!v || "שדה זה הינו חובה"],
     remmber: false,
   }),
