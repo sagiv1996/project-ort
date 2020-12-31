@@ -215,7 +215,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item v-else-if="$auth.user.type === 'headFaculty'">
+            <v-list-item v-else-if="$auth.user.type === 'headFaculty' && file.ApprovalMentorDate">
               <v-list-item-icon>mdi-thumb-up-outline</v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>אשר קובץ</v-list-item-title>

@@ -93,14 +93,13 @@
                 hint="מינימום חודש וחצי, מקסימום 7 חודשים וחצי"
                 outlined
                 :rules="[emptyRules]"
-                @blur="update"
                 clearable
                 filled
               ></v-text-field>
             </template>
             <v-date-picker
               v-model="inputDate"
-              @input="[(menuDate = false), (menuTime = true)]"
+              @input="[(menuDate = false), (menuTime = true), update]"
               :no-title="!inputDate"
               :min="minTime"
               :max="maxTime"
@@ -135,7 +134,7 @@
               v-if="menuTime"
               v-model="inputTime"
               full-width
-              @input="menuTime = false"
+              @input="menuTime = false, update"
               format="24hr"
               :allowedHours="goodHouers"
               :no-title="!inputTime"
