@@ -1,8 +1,6 @@
 <template>
     <div>
-        <v-file-input v-model="file"/>
-        {{dd}}
-        {{file}}
+        <v-file-input v-model="file" @change="previewFiles"/>
     </div>
 </template>
 
@@ -11,11 +9,11 @@ export default {
     data:()=>({
         file: null
     }),
-    computed:{
-        dd(){
-            console.log(this.file)
-            return this.file
-        }
-    }
+   methods: {
+        previewFiles() {
+            const l = this.$xlsx.readFile(this.file)
+            alert(l)
+       }
+   }
 }
 </script>

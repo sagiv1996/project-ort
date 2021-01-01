@@ -59,7 +59,11 @@
     </v-app-bar>
     <v-main>
       <v-container>
-        <nuxt />
+        <v-banner sticky app icon="mdi-wifi-off" single-line class="text-center white--text" color="red" icon-color="white" v-if="$nuxt.isOffline"> 
+          אין חיבור אינטרנט 
+          <v-progress-circular indeterminate color="white"></v-progress-circular>
+        </v-banner>
+        <nuxt v-else/>
       </v-container>
     </v-main>
     <v-navigation-drawer

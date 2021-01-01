@@ -31,7 +31,7 @@
     <v-col cols="12" class="elevation-5">
       <v-slide-group>
         <v-slide-item v-for="item in stat" :key="item.id">
-          <v-card hover elevation="3" class="ma-3" width="300">
+          <v-card hover elevation="3" class="ma-3" width="350">
             <v-card-text class="justify">
               <v-checkbox
                 label="הצג בסטיסטיקה כללית"
