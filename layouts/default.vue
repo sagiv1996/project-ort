@@ -131,9 +131,15 @@ export default {
         {
           icon: "mdi-chart-line",
           title: "סטיסטיקה",
-          to: "/stat",
+          to: "/general-statistics",
           watch:['worker', 'boss']
-        }
+        },
+        {
+          icon: "mdi-chart-line",
+          title: "סטיסטיקה",
+          to: "/statistics",
+          watch:['headFaculty']
+        },
       ],
 
     }
