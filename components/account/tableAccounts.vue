@@ -84,7 +84,7 @@
           <span>שלח מייל</span>
         </v-tooltip>
       </template>
-      <template v-slot:[`item.editOrDelete`]="{ item }" v-if="$auth.user.type === 'worker'">
+      <template v-slot:[`item.edit`]="{ item }" v-if="$auth.user.type === 'worker'">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -98,6 +98,7 @@
           </template>
           <span>ערוך</span>
         </v-tooltip>
+        <!--
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on" @click="deleteAccount(item)">
@@ -106,6 +107,7 @@
           </template>
           <span>מחק</span>
         </v-tooltip>
+        --->
       </template>
       <template v-slot:expanded-item="{ item, headers }">        
       <td :colspan="headers.length">
@@ -220,8 +222,9 @@ export default {
         groupable: false,
       },
       {
-        text: "ערוך / מחק",
-        value: "editOrDelete",
+       // text: "ערוך / מחק",
+       text: "ערוך",
+        value: "edit",
         sortable: false,
         groupable: false,
       },
@@ -274,6 +277,7 @@ export default {
           break;
       }
     },
+    /*
     deleteAccount(account) {
       this.$swal({
         title: `מחיקת חשבון ${account.accountId}`,
@@ -309,7 +313,8 @@ export default {
             )
         }
       });
-    },
+      
+    },*/
   },
 };
 </script>

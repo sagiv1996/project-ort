@@ -49,7 +49,7 @@ export default {
   axios: {
     baseURL: 
       "http://localhost:801/api/"  
-     //  "http://umbrella.myddns.me:3000/api/"
+     // "http://umbrella.myddns.me:3000/api/"
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

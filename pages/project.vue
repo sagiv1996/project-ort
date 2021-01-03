@@ -1,7 +1,7 @@
 <template>
 
   <div v-if="!$fetchState.pending">
-    <project :project.sync="project" />
+    <project :project.sync="project"/>
     <v-stepper v-model="step" vertical class="pl-7">
       <v-stepper-step :complete="step <= maxStep" step="1" editable>
         ספר פרויקט
@@ -65,9 +65,10 @@
 <script>
 export default {
   async asyncData({ $axios, $auth }) {
-    const project = await $axios.$get(
+    let project = await $axios.$get(
       `projects/${$auth.user.student.projectId}`
     );
+    //if(!project) project = new Object();
     return { project };
   },
 

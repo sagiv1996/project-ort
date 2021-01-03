@@ -24,7 +24,7 @@ export default {
       required: true,
     },
     project: {
-      type: Array,
+      type: Object,
       required: true,
     },
     lock: {

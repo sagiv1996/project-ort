@@ -105,7 +105,7 @@
 
       <v-expansion-panel v-for="file in project.files" :key="file.id">
         <v-expansion-panel-header>
-          <v-icon>mdi-file</v-icon>
+          <v-icon :color="file.ApprovalMentorDate && file.ApprovalHeadDate? 'green' : 'red'">mdi-file</v-icon>
           <span>{{ file.type }} - {{ file.name }}</span>
         </v-expansion-panel-header>
         <v-expansion-panel-content>

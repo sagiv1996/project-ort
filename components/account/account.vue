@@ -99,6 +99,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <more-info-to-mentor :mentor.sync="account.mentor" v-if="account.type === 'mentor' && $auth.user.type != 'student'"/>
     </v-col>
   </v-row>
 </template>
