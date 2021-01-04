@@ -2,6 +2,7 @@
   <v-card>
     <v-card-title primary-title> יצירת חשבון חדש </v-card-title>
     <v-card-text>
+      {{account}}
       <v-form ref="form">
         <v-text-field
           label="תעודת זהות"
@@ -9,8 +10,9 @@
           type="text"
           counter="9"
           hint="נא להכניס בשדה זה מספר תעודת זהות כולל ספרת ביקורת"
-          v-model="accountId"
+          v-model="account.accountId"
           validate-on-blur
+          disabled
           outlined
           clearable
           filled
@@ -18,7 +20,7 @@
         <v-text-field
           label="שם פרטי"
           counter="10"
-          v-model="firstName"
+          v-model="account.firstName"
           :rules="[emptyRules]"
           prepend-icon="mdi-contacts"
           outlined
@@ -28,7 +30,7 @@
         <v-text-field
           label="שם משפחה"
           counter="10"
-          v-model="lastName"
+          v-model="account.lastName"
           :rules="[emptyRules]"
           prepend-icon="mdi-scale-bathroom"
           outlined
@@ -38,7 +40,7 @@
         <v-text-field
           label="מספר פלאפון"
           counter="10"
-          v-model="phone"
+          v-model="account.phone"
           :rules="[emptyRules, phoneRules]"
           prepend-icon="mdi-cellphone-iphone"
           outlined
@@ -48,7 +50,7 @@
         <v-text-field
           label="כתובת מייל"
           counter="40"
-          v-model="email"
+          v-model="account.email"
           :rules="[emptyRules, emailRules]"
           prepend-icon="mdi-gmail"
           outlined
@@ -57,11 +59,12 @@
           validate-on-blur
         />
         <v-radio-group
-          v-model="sex"
+          v-model="account.sex"
           row
           label="מין:"
           :rules="[emptyRules]"
           prepend-icon="mdi-gender-male-female"
+          disabled
         >
           <v-radio label="זכר" value="זכר"></v-radio>
           <v-radio label="נקבה" value="נקבה"></v-radio>
@@ -69,7 +72,7 @@
         <v-text-field
           label="כתובת מגורים"
           counter="25"
-          v-model="addres"
+          v-model="account.addres"
           :rules="[emptyRules]"
           prepend-icon="mdi-map-marker-radius"
           outlined
@@ -77,28 +80,31 @@
           filled
         />
         <v-radio-group
-          v-model="type"
+          v-model="account.type"
           row
           label="סוג משתמש"
           :rules="[emptyRules]"
           prepend-icon="mdi-gender-male-female"
+          disabled
         >
           <v-radio
             label="סטודנט"
             value="student"
+            @change="loadFaculties"
           ></v-radio>
           <v-radio label="מנחה" value="mentor"></v-radio>
           <v-radio
             label="ראש מגמה"
             value="headFaculty"
+            @change="loadFaculties"
           ></v-radio>
           <v-radio label="עובד מכללה" value="worker"></v-radio>
           <v-radio label="מנהל מכללה" value="boss" disabled></v-radio>
         </v-radio-group>
-        <template v-if="type === 'mentor'">
+        <template v-if="account.type === 'mentor'">
           <v-text-field
             label="השכלה"
-            v-model="education"
+            v-model="account.mentor.Education"
             prepend-icon="mdi-school"
             :rules="[emptyRules]"
             outlined
@@ -110,7 +116,7 @@
 
           <v-text-field
             label="מיקום עבודה"
-            v-model="workLocation"
+            v-model="account.mentor.WorkLocation"
             prepend-icon="mdi-yoga"
             :rules="[emptyRules]"
             outlined
@@ -121,13 +127,13 @@
           ></v-text-field>
         </template>
 
-        <template v-else-if="type === 'student'">
+        <template v-else-if="account.type === 'student'">
           <v-autocomplete
             :items.sync="faculties"
             item-text="name"
             item-value="id"
             label="מגמה"
-            v-model="facultyId"
+            v-model="account.student.facultyId"
             :rules="emptyRules"
             outlined
             clearable
@@ -151,6 +157,12 @@
 
 <script>
 export default {
+  props:{
+    account: {
+      type: Object,
+      required: true
+    }
+  },
   data: () => ({
     emptyRules: (v) => !!v || "שדה חובה",
     emailRules: (v) =>
@@ -159,17 +171,17 @@ export default {
     phoneRules: (v) => /^05\d([-]{0,1})\d{7}$/.test(v) || "מספר טלפון לא תקין",
     faculties: [],
     accountId: null,
-    firstName:null,
+    firstName: null,
     lastName: null,
     sex: null,
-    email:  null,
+    email: null,
     phone: null,
     type: null,
-    addres: null,
-    facultyId: null,
-    education: null,
-    workLocation: null
+    addres: null
   }),
+  async fetch() {
+    await this.loadFaculties();
+  },
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
@@ -183,54 +195,51 @@ export default {
           type: this.type,
           addres: this.addres
         };
-        
         let request;
-        switch (this.type) {
+        switch (this.account.type) {
           case "student":
             account[`student`] = {
-              facultyId: this.facultyId,
-              accountId: this.accountId,
+              facultyId: this.account.student.facultyId,
+              accountId: this.account.accountId,
             };
-            request = await this.$axios.post(
-              `students/${this.accountId}`,
-              account
+            request = await this.$axios.put(
+              `students/${this.account.accountId}`,
+              this.account
             );
             break;
           case "mentor":
             account[`mentor`] = {
-              accountId: this.accountId,
-              WorkLocation: this.workLocation,
-              Education: this.education,
+              accountId: this.account.accountId,
+              WorkLocation: this.account.mentor.WorkLocation,
+              Education: this.account.mentor.Education,
             };
-            request = await this.$axios.post(
-              `mentors/${this.accountId}`,
-              account
+            request = await this.$axios.put(
+              `mentors/${this.account.accountId}`,
+              this.account
             );
             break;
           default:
-            request = await this.$axios.post(
-              `accounts/create/${this.accountId}`,
-              account
+            request = await this.$axios.put(
+              `accounts/${this.account.accountId}`,
+              this.account
             );
             break;
         }
         if (request.status === 200) {
-          this.$emit("update", request.data);
+          this.$emit('close');
           this.$swal(
-            "החשבון נוצר בהצלחה",
-            `חשבון ${this.firstName} ${this.lastName} (${this.accountId})נוצר בהצלחה`,
+            "החשבון עודכן בהצלחה",
+            `חשבון ${this.account.firstName} ${this.account.lastName} (${this.account.accountId})עודכן בהצלחה`,
             "success"
           );
         }
       }
-      
     },
-  }, 
-  watch:{
-    async type(value){
-      if (value === 'student' && !this.faculties[0])
-      this.faculties = await this.$axios.$get("faculties"); // load faculties only choose student a first time
-    }
+    async loadFaculties() {
+      if (!this.faculties[0]) {
+        this.faculties = await this.$axios.$get("faculties"); // load faculties only choose student a first time
+      }
+    },
   }
 };
 </script>

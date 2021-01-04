@@ -87,6 +87,11 @@ export default {
     }
   },
   
+  methods:{
+    nullToZero(value){
+      return isNaN(value)? 0: value;
+    }
+  },
   computed: {
     values() {
       return this.stat.map((x) => x[`students.count`]);
@@ -117,9 +122,9 @@ export default {
             element["students.studentWithProject"];
           object["students.studentWithGrade"] +=
             element["students.studentWithGrade"];
-            max = Math.max(max, parseInt(element["students.maxGrade"]));
-            min = Math.min(min, parseInt(element["students.minGrade"]));
-            object["students.avg"] += parseFloat(element["students.avg"])
+            max = Math.max(max, this.nullToZero(parseInt(element["students.maxGrade"]))); 
+            min = Math.min(min, this.nullToZero(parseInt(element["students.minGrade"])));
+            object["students.avg"] += this.nullToZero(parseFloat(element["students.avg"]))
         }
       });
       object["students.avg"] /= index;

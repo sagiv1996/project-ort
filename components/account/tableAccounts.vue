@@ -12,14 +12,14 @@
         <v-flex xs2>
           <v-tooltip top v-if="$auth.user.type === 'worker'">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn fab v-bind="attrs" v-on="on" @click="dialog = !dialog">
+            <v-btn fab v-bind="attrs" v-on="on" @click="dialog = 'create-account'">
               <v-icon> mdi-table-large-plus</v-icon>
             </v-btn>
           </template>
           <span>הוסף</span>
         </v-tooltip>
-        <v-dialog v-model="dialog" max-width="450" transition="dialog-transition" @click:outside="resetAccount">
-      <create-account :account.sync="account" :edit="edit" @close="dialog = false" @update="update"/>
+        <v-dialog :value="dialog != null" max-width="450" transition="dialog-transition" @click:outside="dialog = null">
+          <component :is="dialog" @close="dialog = null" @update="update" :account="accountEdit"/>
     </v-dialog>
         </v-flex>
         <v-flex xs8>
@@ -91,7 +91,7 @@
               icon
               v-bind="attrs"
               v-on="on"
-              @click="[(dialog = !dialog), (account = item), edit = true]"
+              @click="[(dialog = 'edit-account'), (accountEdit = item)]"
             >
               <v-icon> mdi-account-edit-outline</v-icon>
             </v-btn>
@@ -108,6 +108,7 @@
           <span>מחק</span>
         </v-tooltip>
         --->
+        
       </template>
       <template v-slot:expanded-item="{ item, headers }">        
       <td :colspan="headers.length">
@@ -142,11 +143,16 @@
         />
       </v-tooltip>
     </template>
+
     </v-data-table>    
 </template>
 
 <script>
+import createAccount from './createAccount.vue';
+import EditAccount from './editAccount.vue';
+
 export default {
+  components: { createAccount, EditAccount },
   props: {
     data: {
       type: Array,
@@ -162,27 +168,9 @@ export default {
     }
   },
   data: () => ({
+    accountEdit: null,
     search: null,
-    edit: false,
-    account: {
-      accountId: null,
-      firstName: null,
-      lastName: null,
-      phone: null,
-      email: null,
-      sex: null,
-      type: null,
-      student: {
-        facultyId: null,
-            accountId: null,
-      },
-      mentor: {
-        WorkLocation: null,
-        Education: null,
-        accountId: null,
-      }
-    },
-    dialog: false,
+    dialog: null,
     headers: [
       {
         text: "סוג חשבון",
@@ -233,7 +221,7 @@ export default {
   methods: {    
     update(account){
       this.data.push(account);
-      this.dialog = false;
+      this.dialog = null;
     },
     resetAccount() {
       this.account = {
