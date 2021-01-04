@@ -237,6 +237,30 @@
                 </v-tooltip>
               </v-list-item-action>
             </v-list-item>
+            <v-list-item v-if="$auth.user.type === 'worker'">
+              <v-list-item-icon>
+                <v-icon>mdi-email-send</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>שלח למה"ט </v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      :disabled="!file.ApprovalMentorDate && !file.ApprovalHeadDate"
+                      @click="sendMahat"
+                    >
+                      <v-icon>mdi-email-send-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>שלח למהט</span>
+                </v-tooltip>
+              </v-list-item-action>
+            </v-list-item>
           </v-list>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -256,6 +280,9 @@ export default {
     },
   },
   methods: {
+    sendMahat(){
+      this.$swal("שליחה למהט", "זמנית המערכת איננה תומכת בשליחה למהט", 'info')
+    },
     async updateStudent(student){
       const result = await this.$axios.put(`students/${student.accountId}`, {gradeProject: student.gradeProject});
       if (result.status === 200) this.$swal("ציון עודכן בהצלחה", `הציון לסטודנט עודכן בצהלחה!`, 'success')
