@@ -98,7 +98,7 @@
                 ? 'info'
                 : 'green'
             "
-            @end="updateStudent(student)"
+            @change="updateStudent(student)"
           ></v-slider>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -284,7 +284,8 @@ export default {
       this.$swal("שליחה למהט", "זמנית המערכת איננה תומכת בשליחה למהט", 'info')
     },
     async updateStudent(student){
-      const result = await this.$axios.put(`students/${student.accountId}`, {gradeProject: student.gradeProject});
+      const data = {student: {gradeProject: student.gradeProject}};
+      const result = await this.$axios.put(`students/${student.accountId}`, data);
       if (result.status === 200) this.$swal("ציון עודכן בהצלחה", `הציון לסטודנט עודכן בצהלחה!`, 'success')
     },
     async download(file) {
