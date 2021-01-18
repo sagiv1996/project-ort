@@ -23,6 +23,6 @@
     "vue-xlsx": "^0.2.1"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.11.2"
+    "@nuxtjs/vuetify": "^1.11.3"
   }
 }
