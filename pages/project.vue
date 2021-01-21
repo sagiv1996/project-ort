@@ -64,6 +64,12 @@
 
 <script>
 export default {
+  /**
+   * @param $axios מודל לגישה לשרת
+   * @param {object} $auth  מידע על המשתמש המחובר
+   * מידע נטען עם עליית העמוד
+   * פונקציה טוענת מידע על פרויקט של סטודנט מהשרת
+   */
   async asyncData({ $axios, $auth }) {
     let project = await $axios.$get(
       `projects/${$auth.user.student.projectId}`
@@ -72,6 +78,10 @@ export default {
     return { project };
   },
 
+/**
+ * פונקציה נטענת כאשר העמוד נטען
+ * פונקציה מוצאת את המקום החלון הרלוונטי שצריך לשלוח אליו את הסטודנט
+ */
   fetch() {
     if (this.project && this.project.ProtectionDate) this.step = 3;
     else if (
@@ -90,12 +100,19 @@ export default {
     maxStep: 1,
   }),
   methods: {
+    /**
+     * @param {date} משתנה מכיל תאריך 
+     * פונקציה ממירה תאריך לפורמט רצוי
+     */
     toStringDate(date) {
       const dateConvert = new Date(date);
       return `${dateConvert.getFullYear()}-${
         dateConvert.getMonth() + 1
       }-${dateConvert.getDate()} ${dateConvert.getHours()}:${dateConvert.getMinutes()}`;
     },
+    /**
+     * פונקציה מציגה הודעה רלוונטית 
+     */
     showDetalis(g) {
       this.$swal({
         title: `שיהיה בהצלחה`,
@@ -104,9 +121,17 @@ export default {
         footer: "מומלץ לעמוד בקשר מול המכללה לפני ההגעה.",
       });
     },
+    /**
+     * @param {object} project הפרויקט החדש המעודכן
+     * עדכון פרויקט ישן לפרויקט מעודכן
+     */
     updateProject(project) {
       this.project = project;
     },
+    /**
+     * @param {object} file מידע על הקובץ
+     * הפונקציה מוסיפה מידע על קובץ לפרויקט לאחר שסטודנט מעלה קובץ
+     */
     updateFile(file) {
       this.project.files.push(file);
     },

@@ -79,9 +79,17 @@ export default {
     },
   },
   methods: {
+    /**
+     * פונקציה מקבלת קובץ ויוצרת טריגר למי שמשתמש ברכיב
+     */
     upload(file) {
       this.$emit("upload", file);
     },
+
+    /**
+     * פונקציה מחזירה תאריך בפורמט מסויים
+     * פונקציה מקבלת תאריך
+     */
     toStringDate(date) {
       const dateConvert = new Date(date);
       return `${dateConvert.getFullYear()}-${

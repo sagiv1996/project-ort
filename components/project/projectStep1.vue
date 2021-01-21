@@ -94,6 +94,11 @@ export default {
     name: null,
   }),
   methods: {
+    /**
+     * הפונקציה צריכה ליצור פרויקט חדש
+     * הפונקציה מוודא שהטופס תקין
+     * הצגת הודעת שגיאה רלוונטית
+     */
     async createProject() {
       if (this.$refs.form.validate()) {
         const result = await this.$axios.post(`projects`, {
@@ -102,14 +107,21 @@ export default {
         });
         if (result.status === 201) {
           this.$swal("נוצר בהלחה", "פרויקט חדש נוצר בהצלחה!", "success"); // alert
-          //this.project = result.data;
           this.$emit("create", result.data);
         }
       }
     },
+    /**
+     *פונקציה מקבלת קובץ ויוצרת טריגר למי שקרה לרכיב עם הקובץ 
+     */
     upload(file) {
       this.$emit("upload", file);
     },
+
+    /**
+     * פונקציה מחזירה תאריך בפורמט מסויים
+     * פונקציה מקבלת תאריך
+     */
     toStringDate(date) {
       const dateConvert = new Date(date);
       return `${dateConvert.getFullYear()}-${

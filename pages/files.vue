@@ -42,6 +42,10 @@
 
 <script>
 export default {
+  /**
+   * טעינת מידע יחד עם העמוד
+   * טעינת מידע על מנחה לפי מספר זהות
+   */
   async asyncData({$axios, $auth}){
     const mentor = await $axios.$get(`mentors/${$auth.user.accountId}`);
     return {mentor};
@@ -52,6 +56,13 @@ export default {
     emptylRules: (v) => !!v || "שדה חובה",
   }),
   methods: {
+    /**
+     * העלאת פרויקט
+     * @param {string} name סוג הקובץ (קו"ח / אישור השכלה)
+     * @param {object} file הקובץ להעלאה
+     * הפונקציה מעלה את הקובץ לשרת -> אם קיים קובץ הוא יעודכן
+     * הפונקציה תדפיס הודעה לאחר מכן 
+     */
     async upload(name, file) {
       if (file) {
         let formData = new FormData();
@@ -69,9 +80,11 @@ export default {
     },
   },
   watch:{
+    // עדכון הקובץ לאחר העלאתו
     resume(){
       this.mentor.resumeName = this.resume.name;
     },
+    // עדכון הקובץ לאחר העלאתו
     certificate(){
       this.mentor.certificateName = this.certificate.name;
     }

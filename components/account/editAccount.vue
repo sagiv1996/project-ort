@@ -179,9 +179,15 @@ export default {
     type: null,
     addres: null
   }),
+  /**
+   * פונקציה זו נקראת ברגע שנפתחת הקומפננטה
+   */
   async fetch() {
     await this.loadFaculties();
   },
+  /**
+   * פונקציה בודקת שערכי הטופס הם תקניים ושולחת בקשה מתאימה לשרת לפי סוג המשתמש
+   */
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
@@ -196,7 +202,7 @@ export default {
           addres: this.addres
         };
         let request;
-        switch (this.account.type) {
+        switch (this.account.type) { // שולחים לקישור רלוונטי 
           case "student":
             account[`student`] = {
               facultyId: this.account.student.facultyId,
@@ -225,8 +231,8 @@ export default {
             );
             break;
         }
-        if (request.status === 200) {
-          this.$emit('close');
+        if (request.status === 200) { // בקשה בוצעה בהצלחה בשרת
+          this.$emit('close'); // יצירת ארוע למקום שקורה לקומפננטה
           this.$swal(
             "החשבון עודכן בהצלחה",
             `חשבון ${this.account.firstName} ${this.account.lastName} (${this.account.accountId})עודכן בהצלחה`,
@@ -235,6 +241,9 @@ export default {
         }
       }
     },
+    /**
+     * הפונקציה טוענת את כל המגמות במכללה
+     */
     async loadFaculties() {
       if (!this.faculties[0]) {
         this.faculties = await this.$axios.$get("faculties"); // load faculties only choose student a first time

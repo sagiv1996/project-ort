@@ -77,10 +77,19 @@ export default {
   data: () => ({
     type: null,
   }),
+  /**
+   * טעינת מידע יחד עם טעינת העמוד
+   * הפונקציה טוענת את הסטיסטיקות של כל המגמות
+   */
   async asyncData({ $axios }) {
     const stat = await $axios.$get("students/stat/student");
     return { stat };
+    
   },
+  /*
+  * הפונקציה פועלת מייד לאחר טעינת העמוד,
+  * הפונקציה מסמנת 1 על כל הערכים
+  */
   fetch() {
     for (let index = 0; index < this.stat.length; index++) {
       this.stat[index].select = true;
@@ -88,20 +97,32 @@ export default {
   },
   
   methods:{
+    /**
+     * @param {string} value ערך קיים
+     *  הפונקציה מקבלת ערך ומחזירה מספר
+    */
     nullToZero(value){
       return isNaN(value)? 0: value;
     }
   },
   computed: {
+    /**
+     * הפונקציה יוצרת מערך של כמויות סטודנטים
+     */
     values() {
       return this.stat.map((x) => x[`students.count`]);
     },
 
+/**
+ * הפונקציה יוצרת מערך של שמות המגמות של הסטודנטים
+ */
     labels() {
       return this.stat.map((x) => `${x.name} - ` + x[`students.count`]);
     },
     
-
+/**
+ * הפונקציה יוצרת ומחזירה אוביקט עם ערכים של המגמות שסומנו
+ */
     result() {
       let object = {
         name: "המגמות שנבחרו",

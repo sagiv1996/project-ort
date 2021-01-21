@@ -27,10 +27,16 @@ export default {
   data: () => ({
     account: null,
   }),
+  /**
+   * הפונקציה נקראת ברגע שנוצרת הקומפננטה וטוענת משתמש לפי מספר הזיהוי שלו
+   */
   async fetch() {
     const user = await this.$axios.$get(`accounts/user/${this.accountId}`);
     this.account = user;
   },
+  /**
+   * מתי שהמספר זהות משתנה טוענים מחדש את הרכיב
+   */
   watch: {
     accountId() {
       this.$fetch();

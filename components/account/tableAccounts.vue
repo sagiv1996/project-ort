@@ -159,6 +159,11 @@ export default {
       required: true,
     }
   },
+  /**
+   * פונקציה מתאימהאת הטבלה לסוג המשתמש
+   * מורידה שורת ערוך עבור מנהל מכללה
+   * מורידה שורת סוג חשבון עבור כל החשבונות מלבד מנהל או עובד 
+   */
   fetch(){
     if (this.$auth.user.type === 'boss')this.headers.shift();
     else
@@ -210,7 +215,6 @@ export default {
         groupable: false,
       },
       {
-       // text: "ערוך / מחק",
        text: "ערוך",
         value: "edit",
         sortable: false,
@@ -219,30 +223,17 @@ export default {
     ],
   }),
   methods: {    
+    /**
+     * פונקציה מוסיפה חשבון לטבלה + סוגרת תיבת דיאלוג
+     */
     update(account){
       this.data.push(account);
       this.dialog = null;
     },
-    resetAccount() {
-      this.account = {
-        accountId: null,
-        firstName: null,
-        lastName: null,
-        phone: null,
-        email: null,
-        sex: null,
-        type: null,
-        student: {
-        facultyID: null
-      },
-       mentor: {
-        WorkLocation: null,
-        Education: null,
-        accountId: null
-      }
-      };
-      this.edit = false
-    },
+
+    /**
+     * הפונקציה מקבלת את שם סוג החשבון באנגלית ומחזירה אותו בתרגום לעברית
+     */
     translateType(type) {
       switch (type) {
         case "student":

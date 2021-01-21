@@ -58,9 +58,15 @@
 
 <script>
 export default {
+  /**
+   * @param {Array} $auth 'מידע אודות המשתמש'
+   * @param redirect 'פונקציה ששולחת את המשתמש לקישור רלוונטי'
+   * בדיקה האם המשתמש מחובר ואם כן שליחה למקום רלונוטי
+   */
   middleware: ({$auth, redirect})=>{
     if ($auth.loggedIn) redirect(`/account`);
   },
+  // שינוי כותרת העמוד
   head: () => ({
     title: "התחברות",
   }),
@@ -73,15 +79,23 @@ export default {
     remmber: false,
   }),
   methods: {
-    clear(val) {
-      if (!val) localStorage.clear();
+    clear() {
+      localStorage.clear();
     },
+    /**
+     * הפונקציה בודקת האם שמור מספר זיהוי וסיסמא במערכת ועושה פעולת השמה אם כן
+     */
     async check() {
       if (localStorage.getItem("id") && localStorage.getItem("pass")) {
         this.remmber = true;
         this.id = await localStorage.getItem("id");
       }
     },
+    /**
+     * הפונקציה בודקת שהטופס תקין ומבצעת הלית התחברות אם כן
+     * במידה וכן החשבון יעבור לעמוד רלוונטי
+     * במידה ולא תוצג הודעת שגיאה
+     */
     async submit() {
       if (this.$refs.form.validate()) {
         if (this.remmber) {
@@ -101,6 +115,9 @@ export default {
         
       }
     },
+    /**
+     * @param {string} id הפונקציה בודקת שהמחרוזת שהוזנה היא באמת מספר זהות
+     */
     checkId(id) {
       if (id === null || id.length != 9) {
         return "אורך לא תקין";

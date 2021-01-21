@@ -46,7 +46,7 @@
       <v-list-item-action v-if="mentor.resumeName">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" @click="download('getResume', mentor.resumeName)">
+            <v-btn icon v-bind="attrs" v-on="on" @click="download('getResume')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -72,7 +72,7 @@
       <v-list-item-action v-if="mentor.certificateName">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on" @click="download('getCertificate', mentor.certificateName)">
+            <v-btn icon v-bind="attrs" v-on="on" @click="download('getCertificate')">
               <v-icon>mdi-download</v-icon>
             </v-btn>
           </template>
@@ -91,11 +91,20 @@ export default {
     },
   },
   methods:{
-      async download(func, name){
+    /**
+     * פרמטר ראשון יכול להיות 
+      getResume or getCertificate
+    * פונקציה מורידה קובץ מבוקש
+     */
+      async download(func){
            let res = await this.$axios.$get(`mentors/${func}/${this.$auth.user.accountId}`, {
         responseType: "blob",
       });
 
+/**
+ * יצירת קישור
+ * יצירת טריגר ללחיצה על קישור
+ */
 var fileURL = window.URL.createObjectURL(res);
       var fileLink = document.createElement("a");
       fileLink.href = fileURL;

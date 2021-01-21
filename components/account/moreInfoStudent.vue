@@ -82,10 +82,17 @@ export default {
   data: () => ({
     faculties: null,
   }),
+  /**
+   * הפונקציה נקראת ברגע שהעמוד עולה,
+   * פונקציה טוענת את כל המגמות
+   */
   async fetch() {
     this.faculties = await this.$axios.$get("faculties");
   },
   methods: {
+    /**
+     * פונקציה מחזירה את שם המגמה לפי מזהה ששולחים לה. במידה והמגמות טרם נטענו היא תחזיר מחרוזת "טוען..."
+     */
     nameFactury(facultyId) {
       return this.faculties
         ? this.faculties.find((faculty) => faculty.id === facultyId).name

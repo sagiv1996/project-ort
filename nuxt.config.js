@@ -37,19 +37,21 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    // https://auth.nuxtjs.org/
     '@nuxtjs/auth',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://sweetalert2.github.io/
     'vue-sweetalert2/nuxt'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: 
-      "http://localhost:801/api/"  
-     // "http://umbrella.myddns.me:3000/api/"
+     // "http://localhost:801/api/"  //localhost
+      "http://umbrella.myddns.me:3000/api/" // back url
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -73,15 +75,17 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'accounts/login', method: 'post' },
+          login: { url: 'accounts/login', method: 'post' }, // login url
           logout: false,
-          user: { url: 'accounts/user/me', method: 'get', property: "token" }
+          user: { url: 'accounts/user/me', method: 'get', property: "token" } // info by user url (with token)
         }
       }
     }
   },
+ 
+  // make web to app mobile
 
-  pwa:{
+  pwa:{ 
     manifest: {
       name: 'מערכת העלאת קבצים מכללת אורט',
       lang: 'he',
@@ -90,7 +94,8 @@ export default {
       dir: 'rtl',
     }
   },
-  router: {
+  // add for route middleware (check auth)
+  router: { 
     middleware: ['auth']
   }
 }

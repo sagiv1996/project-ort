@@ -280,14 +280,28 @@ export default {
     },
   },
   methods: {
+    /**
+     * פונקציה תציג הודעה על לחיצה על האייקון
+     */
     sendMahat(){
       this.$swal("שליחה למהט", "זמנית המערכת איננה תומכת בשליחה למהט", 'info')
     },
+    /**
+     * מטרת הפונקציה היא לעדכן סטודנט
+     * פונקציה מקבלת משתנה סטודנט
+     * פונקציה מעדכנת את ציונו האישי של הפרויקט בשרת ומציגה הודעת הצלחה
+     */
     async updateStudent(student){
       const data = {student: {gradeProject: student.gradeProject}};
       const result = await this.$axios.put(`students/${student.accountId}`, data);
       if (result.status === 200) this.$swal("ציון עודכן בהצלחה", `הציון לסטודנט עודכן בצהלחה!`, 'success')
     },
+
+    /**
+     * תפקיד הפונקציה הוא להוריד קבצים מהשרת
+     * פונקציה מקבלת מידע על הקובץ כפרמטר
+     * פונקציה יוצרת קשר עם השרת ומקבלת את הקובץ בחזרה ומורידה אותו למחשב
+     */
     async download(file) {
       const res = await this.$axios.$get("/file/" + file.id, {
         responseType: "blob",
@@ -299,6 +313,11 @@ export default {
       document.body.appendChild(fileLink);
       fileLink.click();
     },
+
+    /**
+     * פונקציה מקבלת את הקובץ ומוסיפה לו אישור של מנחה / ראש מגמה בשרת 
+     * מציגה הודעת הצלחה
+     */
     async toConfirm(file) {
       let data;
       if (this.$auth.user.type === "mentor")
@@ -319,6 +338,9 @@ export default {
     },
   },
   computed: {
+    /**
+     * חישוב הציון לפי נתונים על הפרויקט
+     */
     score() {
       let score = 20;
       if (!this.project) return (score = 0);

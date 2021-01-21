@@ -168,6 +168,9 @@ export default {
     now: new Date(),
   }),
   methods: {
+    /**
+     * פונקציה יוצרת סינון עבור הטבלה בשורת חיפוש
+     */
     filterObject(item, queryText, itemText) {
       return (
         item.firstName
@@ -180,6 +183,12 @@ export default {
       );
     },
 
+/**
+ * עדכון לפרויקט
+ * ולידטציה לטופס
+ * הודעה רלוונטית
+ * יצירת טריגר למי שמשתמש בקומפננטה
+ */
     async update() {
       if (this.$refs.form1.validate()) {
         const project = {
@@ -201,7 +210,9 @@ export default {
         }
       }
     },
-
+/**
+ * פונקציה בודקת שיש מקסימום 3 סטודנטים שנבחרו
+ */
     checkMax3() {
       if (this.project.students.length > 3) {
         this.project.students = this.project.students.slice(0, 3);
@@ -212,7 +223,12 @@ export default {
         });
       }
     },
-
+/**
+ * פונקציה מורידה סטודנט בצד לקוח
+ * מקבלת את הסטודנט הרצוי להסרה
+ * מחפשת, מוצאת, ומסירה אותו
+ * 
+ */
     deleteValue(item) {
       const index = this.project.students.indexOf(
         (student) => student.accountId === item.accountId
@@ -220,6 +236,13 @@ export default {
       this.project.students.splice(index, 1);
     },
 
+/**
+ * פונקציה מעדכנת את המספר סטודנטים שיש בפרויקט
+ * בודקת שהטופס תקין
+ * מוסיפה מקסימום 3 מספרי זהות של סודנטים, במידה ואין סטודנטים אז היא מוסיפה מחרוזת ריקה
+ * יוצרת קשר עם השרת
+ * מציגה הודעה רלוונטית לאחר מכו 
+ */
     async updateStudent() {
       if (this.$refs.form2.validate()) {
         let data = [null, "null", "null"];
@@ -240,6 +263,12 @@ export default {
       }
     },
   },
+  /**
+   * פונקציה נקראת בעת פתיחת הרכיב
+   * פונקציה טוענת את כל החשבונות ומפרידה בין מנחה לסטודנט
+   * משנה את פורמט תאריך ההגנה
+   * מוצאת את הזמן (בשעות / דקות) של תאריך ההגנה
+   */
   async fetch() {
     const accounts = await this.$axios.$get("accounts");
     this.mentors = accounts.filter((account) => account.type === "mentor");
@@ -258,9 +287,17 @@ export default {
     }
   },
   computed: {
+    /**
+     * פונקציה מחזירה מחרוזת של תאריך + שעה
+     */
     timeString() {
       return `${this.inputDate} ${this.inputTime}`;
     },
+
+    /**
+     * פונקציה בודקת מה זמן מינימלי לקבוע בוא את מועד הבחינה
+     * (מינימום חודש וחצי קדימה)
+     */
     minTime() {
       return new Date(
         this.now.getFullYear(),
@@ -270,6 +307,11 @@ export default {
         .toISOString()
         .slice(0, 10);
     },
+
+    /**
+     * פונקציה מחזירה זמן מקסימלי
+     * (בעוד 7.5 חודשים -> יש טווח בחירה של חצי שנה)
+     */
     maxTime() {
       return new Date(
         this.now.getFullYear(),

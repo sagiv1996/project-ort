@@ -253,8 +253,12 @@ export default {
     listHeadFaculties: [],
   }),
   methods: {
+    /**
+     * פונקציה מקבלת מגמה + משתנה ומעדכנת את המשתנה החדש במגמה הישנה
+     * לאחר הצלחת הפעולה בשרת הפונקציה תציג הודעה למסך
+     */
     async updateFacultydAccountId(faculty, temp) {
-      if (this.emptyRules(temp) === true) {
+      if (this.emptyRules(temp) === true) { 
         const update = await this.$axios.put(`faculties/${faculty.id}`, {
           accountId: temp.accountId,
         });
@@ -272,6 +276,9 @@ export default {
           ); // alert
       }
     },
+    /**
+     * הגדרת המסנן לשורת חיפוש בטבלה 
+     */
     filterObject(item, queryText, itemText) {
       return (
         item.firstName
@@ -283,11 +290,19 @@ export default {
         item.accountId.indexOf(queryText) > -1
       );
     },
+    /**
+     * פונקציה טוענת את ראשי המגמה 
+     */
     async loadHeadFaculrties(item) {
       if (!this.listHeadFaculties[0])
         this.listHeadFaculties = await this.$axios.$get("accounts/headFaculty");
       if (item) this.temp = item.account;
     },
+
+    /**
+     * פונקציה מקבלת 2 פרמטרים -> מגמה וומשתנה נוסף
+     * פונקציה מחזירה האם קיים ערך זהה או לא 
+     */
     uniqueFacultie(faculty, item) {
       const ind = this.faculties.findIndex(
         (facultyTemp) => facultyTemp === item
@@ -299,6 +314,10 @@ export default {
         ? "קיים ערך זהה"
         : true;
     },
+
+    /*
+    *  פונקציה מקבלת שם מגמה ובודקת שהוא ייחודי
+    */
     uniqueAddFacultie(faculty) {
       return this.faculties.find(
         // find uniq value
@@ -307,6 +326,14 @@ export default {
         ? "קיים ערך זהה"
         : true;
     },
+
+    /**
+     * פונקציה אחראית לעדכן את שם המגמה
+     * פונקציה מקבלת 2 משתנים: מה לעדכן ואיפה
+     * פונקציה בודקת שהערכים תקניים
+     * פונקציה מעכנת בצד לקוח + בשרת את המידע
+     * פונקציה מציגה הודעת הצלחה
+     */
     async updateFacultyName(item, faculty) {
       if (
         this.emptyRules(faculty) === true &&
@@ -328,10 +355,16 @@ export default {
           }); // alert
       }
     },
+    /*
+    * מטרת הפונקציה ליצור מגמה חדשה
+     * פונקציה מבררת שהטופס תקין
+     * פונקציה מתקשרת עם השרת ליצור מגמה חדש 
+     * פונקציה מציגה הודעה רלוונטית
+     * פונקציה מוסיפה רשומה בטבלה
+     */
     async submit() {
       if (this.$refs.formAddFaculty.validate()) {
         const create = await this.$axios.post("/faculties", this.create);
-        alert(JSON.stringify(create));
         if (create.status === 200) {
           this.$swal(
             "מגמה נוצרה בהצלחה",

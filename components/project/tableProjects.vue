@@ -124,11 +124,6 @@ export default {
       type: Array,
       required: true,
     },
-  },
-  methods: {
-    update(oldProject, newProject) {
-      const project = this.projects.find((project) => project === oldProject);
-    },
   }
 };
 </script>

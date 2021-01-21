@@ -171,6 +171,9 @@ export default {
     workLocation: null
   }),
   methods: {
+    /*
+      פונקציה זאת היא בודקת שערכי הטופס תקינים ואם כן היא שולחת אותם לשרת ומציגה הודעה רלוונטית
+    */
     async submit() {
       if (this.$refs.form.validate()) {
         let account = {
@@ -185,7 +188,7 @@ export default {
         };
         
         let request;
-        switch (this.type) {
+        switch (this.type) { //שליחה לקישור רלוונטי
           case "student":
             account[`student`] = {
               facultyId: this.facultyId,
@@ -214,8 +217,8 @@ export default {
             );
             break;
         }
-        if (request.status === 200) {
-          this.$emit("update", request.data);
+        if (request.status === 200) { // במידה והכל תקין ואין שגיאה
+          this.$emit("update", request.data); // יצירת ארוע במקום שמכיל את הקומפננטה
           this.$swal(
             "החשבון נוצר בהצלחה",
             `חשבון ${this.firstName} ${this.lastName} (${this.accountId})נוצר בהצלחה`,
@@ -227,7 +230,7 @@ export default {
     },
   }, 
   watch:{
-    async type(value){
+    async type(value){ // טוען מגמות במידה ובוחריפ סטודנט
       if (value === 'student' && !this.faculties[0])
       this.faculties = await this.$axios.$get("faculties"); // load faculties only choose student a first time
     }

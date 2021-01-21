@@ -37,6 +37,11 @@ export default {
     emptylRules: (v) => !!v || "שדה חובה",
   }),
   methods: {
+    /**
+     * פונקציה מעלה קובץ לשרת
+     * בודקת תקינות של הטופס
+     * שולחת מידע לשרת ומדפיסה הודעה בהתאם לתוצאה
+     */
     async uploadFile() {
       if (this.$refs.form.validate()) {
         let formData = new FormData();

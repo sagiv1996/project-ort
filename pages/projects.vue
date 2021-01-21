@@ -3,6 +3,10 @@
 </template>
 <script>
 export default {
+  /**
+   * פונקציה עובדת עם טעינת העמוד
+   * פונקציה טוענת פרויקטים רלוונטים לפי סוג המשתמש
+   */
   async asyncData({ $axios, $auth }) {
     let projects;
     if ($auth.user.type === "mentor")

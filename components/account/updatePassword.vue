@@ -143,6 +143,11 @@ export default {
     };
   },
   methods: {
+    /*
+    * פונקציה עושה אימות לטופס
+    * פונקציה שולחת בקשה לשרת לעדכון סיסמא
+    * פומקציה מציגה הודעה רלוונטית לאחר הודעה מהשרת
+    */
     async send() {
       if (this.$refs.form.validate()) {
         // the form is good

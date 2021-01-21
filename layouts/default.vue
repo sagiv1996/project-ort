@@ -145,10 +145,16 @@ export default {
     }
   },
   methods:{
+    /**
+     * פונקציה מנקה מידע ששמור בדפדפן ולאחר מכאן מתנתקת מהמשתמש
+     */
     clear(){
       localStorage.clear();
       this.$auth.logout()
     },
+    /**
+     *  הפונקציה מחזירה את התפריט הרלוונטי עבור כל אחד מהחשבונות
+     */
     accessesAllowed(item){
       if (item === '*') return true;
       return item.find(value=> value === this.$auth.user.type)? true: false;
