@@ -21,9 +21,6 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/axios',
-    {
-      src: '~plugins/vue-js-xlsx.js',
-    }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -50,8 +47,8 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: 
-     // "http://localhost:801/api/"  //localhost
-      "http://umbrella.myddns.me:3000/api/" // back url
+      "http://localhost:801/api/"  //localhost
+    //  "http://umbrella.myddns.me:3000/api/" // back url
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
@@ -70,7 +67,9 @@ export default {
     redirect:{
       login: '/',
       callback: '/',
-      home: '/account'
+      home: '/account',
+      logout: '/',
+      rewriteRedirects: '/_token'
     },
     strategies: {
       local: {

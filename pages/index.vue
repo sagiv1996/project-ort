@@ -49,7 +49,7 @@
         ></v-switch>
         <v-spacer></v-spacer>
 
-        <v-btn color="primary">שכחתי סיסמא</v-btn>
+        <v-btn color="primary" @click="forgetPass" :disabled="checkId(id) !== true">שכחתי סיסמא</v-btn>
         <v-btn color="primary" @click="submit">התחבר</v-btn>
       </v-card-actions>
     </v-card-text>
@@ -73,7 +73,7 @@ export default {
   layout: "login",
   data: () => ({
     showPass: false,
-    id: null,
+    id: '208273326',
     pass: '123456',
     emptyRules: [(v) => !!v || "שדה זה הינו חובה"],
     remmber: false,
@@ -91,6 +91,36 @@ export default {
         this.id = await localStorage.getItem("id");
       }
     },
+
+    async forgetPass(){
+     this.$swal({
+        icon: "question",
+        title: 'שחזור סיסמא בציק צאק',
+        validationMessage: "כתובת מייל לא תקינה",
+  input: 'email',
+  inputAttributes: {
+    autocapitalize: 'off',
+    require: 'true'
+  },
+  inputLabel: 'הכנס כאן את כתובת המייל שלך',
+  inputPlaceholder: 'exmple: moshe@gmail.com',
+  showCancelButton: true,
+  cancelButtonText: 'בטל',
+  confirmButtonText: 'הבא',
+  showLoaderOnConfirm: true,
+  preConfirm: (email) =>{
+    return this.$axios.$post(`accounts/forgetPassword`, {accountId: this.id, email: email});    
+  }
+  }).then (result=>{
+    if (result.value.token) this.$swal("פעולה בוצעה בהצלחה!", "נשלח אלייך למיל קישור להחלפת סיסמא. מטעמי בטיחות תוקפו ל-2 דקות בלבד","success");
+     else this.$swal("שגיאה לא ידועה", "אופסי! נראה כי יש שגיאה באימות המייל ומספר הזהות שלך. נסה מחדש בבקשה","error");
+  })
+  .catch(e=>{
+    alert(e)
+  })
+    },
+
+
     /**
      * הפונקציה בודקת שהטופס תקין ומבצעת הלית התחברות אם כן
      * במידה וכן החשבון יעבור לעמוד רלוונטי

@@ -47,7 +47,7 @@
         />
         <v-text-field
           label="כתובת מייל"
-          counter="40"
+          counter="70"
           v-model="email"
           :rules="[emptyRules, emailRules]"
           prepend-icon="mdi-gmail"

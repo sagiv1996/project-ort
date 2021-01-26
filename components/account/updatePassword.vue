@@ -170,6 +170,7 @@ export default {
             "נראה כי סיסמתך הייתה שגויה. הקלד שנית ונסה מחדש",
             "error"
           ); // alert
+          this.$route.go({path: '/'});
       }
     },
     reset() {
