@@ -14,6 +14,7 @@
           outlined
           clearable
           filled
+          :rules="[checkId(id)]"
         />
         <v-text-field
           label="שם פרטי"
@@ -228,6 +229,34 @@ export default {
       }
       
     },
+
+    
+    /**
+     * @param {string} id הפונקציה בודקת שהמחרוזת שהוזנה היא באמת מספר זהות
+     */
+    checkId(id) {
+      if (id === null || id.length != 9) {
+        return "אורך לא תקין";
+      }
+      var tot = 0;
+      for (var i = 0; i < 8; i++) {
+        var x = ((i % 2) + 1) * id.charAt(i);
+        if (x > 9) {
+          x = x.toString();
+          x = parseInt(x.charAt(0)) + parseInt(x.charAt(1));
+        }
+        tot += x;
+      }
+
+      if ((tot + parseInt(id.charAt(8))) % 10 != 0) {
+        this.confirmation = false;
+        return "תעודה לא תקינה";
+      }
+      this.confirmation = this.id;
+      return true;
+    },
+
+
   }, 
   watch:{
     async type(value){ // טוען מגמות במידה ובוחריפ סטודנט
