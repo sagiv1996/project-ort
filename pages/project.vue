@@ -88,6 +88,7 @@ export default {
       Boolean(
         this.project &&
           this.project.files &&
+          this.project.files[0] &&
           this.project.files[0].ApprovalMentorDate &&
           this.project.files[0].ApprovalHeadDate
       )

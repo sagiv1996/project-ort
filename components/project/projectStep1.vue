@@ -100,7 +100,7 @@ export default {
      * הצגת הודעת שגיאה רלוונטית
      */
     async createProject() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.name.length <= 20) {
         const result = await this.$axios.post(`projects`, {
           studentId: this.$auth.user.accountId,
           name: this.name,
@@ -109,6 +109,7 @@ export default {
           this.$swal("נוצר בהלחה", "פרויקט חדש נוצר בהצלחה!", "success"); // alert
           this.$emit("create", result.data);
         }
+        else this.$swal("שגיאה", "יש שגיאה. נסה שנית!", "error"); // alert
       }
     },
     /**

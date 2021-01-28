@@ -2,7 +2,7 @@
   <v-form ref="form">
     <v-file-input
       :label="type"
-      :rules="[emptylRules]"
+      :rules="[emptylRules, sizeRules, pdfRules]"
       append-icon="mdi-arrow-left"
       @click:append="uploadFile"
       v-model="file"
@@ -12,6 +12,9 @@
       prepend-icon="mdi-file"
       clearable
       filled
+      accept="application/pdf"
+      :show-size="true"
+      hint="יש להעלות קבצי pdf בלבד"
     />
   </v-form>
 </template>
@@ -35,6 +38,8 @@ export default {
   data: () => ({
     file: null,
     emptylRules: (v) => !!v || "שדה חובה",
+    sizeRules: (v) => v &&  v.size < 50000000 || 'קובץ צריך להיות מקסימום 50 MB',
+    pdfRules:(v) => v && v.name.split('.').pop() === 'pdf'  || 'המערכת תומכת רק בקבצי pdf'
   }),
   methods: {
     /**
