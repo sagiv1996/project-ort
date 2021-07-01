@@ -19,7 +19,7 @@
     "nuxt-dropzone": "^1.0.4",
     "nuxt-sweetalert2": "^1.0.0",
     "vue-js-xlsx": "0.0.2",
-    "vue-sweetalert2": "^4.1.1",
+    "vue-sweetalert2": "^5.0.2",
     "vue-xlsx": "^0.2.1"
   },
   "devDependencies": {
